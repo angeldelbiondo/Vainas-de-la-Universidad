@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PollClass 🌈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                DEFAULT: '#6366f1',
+                dark: '#4f46e5',
+                light: '#a5b4fc',
+              },
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      @keyframes rainbow-flow {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      @keyframes shimmer {
+        0%   { background-position: -200% center; }
+        100% { background-position: 200% center; }
+      }
+      .rainbow-bg {
+        background: linear-gradient(135deg, #ff0080, #ff4500, #ffcc00, #00cc44, #0099ff, #9933ff, #ff0080);
+        background-size: 400% 400%;
+        animation: rainbow-flow 6s ease infinite;
+      }
+      .rainbow-bg-soft {
+        background: linear-gradient(135deg, #ffecd2, #fcb69f, #ffeaa7, #a8edea, #d4fc79, #96e6a1, #ffecd2);
+        background-size: 400% 400%;
+        animation: rainbow-flow 8s ease infinite;
+      }
+      .rainbow-header {
+        background: linear-gradient(90deg, #ff0080, #ff4500, #ffcc00, #00cc44, #0099ff, #9933ff);
+        background-size: 200% auto;
+        animation: shimmer 4s linear infinite;
+      }
+      .rainbow-btn {
+        background: linear-gradient(90deg, #ff0080, #ff4500, #ffcc00, #00cc44, #0099ff, #9933ff);
+        background-size: 200% auto;
+        animation: shimmer 3s linear infinite;
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .rainbow-btn:hover {
+        box-shadow: 0 4px 20px rgba(255, 100, 0, 0.4);
+        transform: translateY(-1px);
+      }
+      .rainbow-text {
+        background: linear-gradient(90deg, #ff0080, #ff4500, #ffcc00, #00cc44, #0099ff, #9933ff);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 3s linear infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

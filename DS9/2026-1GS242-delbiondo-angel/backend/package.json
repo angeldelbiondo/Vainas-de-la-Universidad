@@ -1,0 +1,11 @@
+{
+  "name": "pollclass-backend",
+  "module": "src/index.ts",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts"
+  },
+  "dependencies": {
+    "mongodb": "^6.8.0"
+  }
+}
