@@ -1,0 +1,635 @@
+<title>Huella SHA-256</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+
+<style>
+  :root{
+    --paper:#fbfcfb;
+    --surface:#eff2f1;
+    --surface-2:#e4e9e8;
+    --line:#cbd4d2;
+    --line-soft:#dee4e3;
+    --ink:#141a1b;
+    --ink-2:#3f4b4c;
+    --ink-3:#6d7a7a;
+    --accent:#1f4f7a;
+    --ok:#0d6b5a;
+    --ok-soft:#d7ebe5;
+    --alt:#98213f;
+    --alt-soft:#f3dde3;
+    --cell:#1f4f7a;
+    --shadow:0 1px 0 rgba(20,26,27,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0e1315;
+      --surface:#161d1f;
+      --surface-2:#1d2528;
+      --line:#2c3639;
+      --line-soft:#222b2e;
+      --ink:#e7ecea;
+      --ink-2:#b3bfbe;
+      --ink-3:#7f8d8d;
+      --accent:#79b3e2;
+      --ok:#4ec5a5;
+      --ok-soft:#123029;
+      --alt:#e8809c;
+      --alt-soft:#331420;
+      --cell:#79b3e2;
+      --shadow:0 1px 0 rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0e1315;
+    --surface:#161d1f;
+    --surface-2:#1d2528;
+    --line:#2c3639;
+    --line-soft:#222b2e;
+    --ink:#e7ecea;
+    --ink-2:#b3bfbe;
+    --ink-3:#7f8d8d;
+    --accent:#79b3e2;
+    --ok:#4ec5a5;
+    --ok-soft:#123029;
+    --alt:#e8809c;
+    --alt-soft:#331420;
+    --cell:#79b3e2;
+    --shadow:0 1px 0 rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Serif","Iowan Old Style",Georgia,serif;
+    font-size:16px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:820px;
+    margin:0 auto;
+    padding:0 28px 96px;
+  }
+  .label{
+    font-family:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:11px;
+    color:var(--ink-3);
+  }
+  code,.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+  /* ---------- cabecera ---------- */
+  header{
+    border-bottom:2px solid var(--ink);
+    padding:56px 0 20px;
+    margin-bottom:0;
+  }
+  .eyebrow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:baseline;
+    margin-bottom:22px;
+  }
+  .eyebrow .sep{color:var(--line);}
+  h1{
+    font-family:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif;
+    font-weight:700;
+    font-size:clamp(38px,7vw,62px);
+    line-height:1.02;
+    letter-spacing:-.015em;
+    margin:0 0 14px;
+    text-wrap:balance;
+  }
+  h1 .thin{font-weight:500;color:var(--ink-2);}
+  .deck{
+    font-size:18px;
+    color:var(--ink-2);
+    max-width:60ch;
+    margin:0 0 8px;
+  }
+
+  /* ---------- ficha ---------- */
+  .ficha{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+    gap:0;
+    border-bottom:1px solid var(--line);
+  }
+  .ficha div{
+    padding:16px 18px 16px 0;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .ficha b{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:500;
+    font-size:14px;
+    color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- secciones ---------- */
+  section{padding:44px 0 0;}
+  h2{
+    font-family:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif;
+    font-weight:600;
+    font-size:26px;
+    letter-spacing:-.005em;
+    margin:0 0 12px;
+    text-wrap:balance;
+  }
+  p{margin:0 0 16px;max-width:66ch;}
+  .intro p:first-of-type::first-letter{
+    float:left;
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:700;
+    font-size:56px;
+    line-height:.82;
+    padding:6px 10px 0 0;
+    color:var(--accent);
+  }
+
+  /* ---------- estados ---------- */
+  .estado{
+    border-top:1px solid var(--line);
+    padding:30px 0 34px;
+  }
+  .estado-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:6px;
+  }
+  .num{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:600;
+    font-size:13px;
+    color:var(--ink-3);
+    font-variant-numeric:tabular-nums;
+    padding-top:2px;
+  }
+  .estado h3{
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:600;
+    font-size:21px;
+    margin:0;
+    flex:1;
+  }
+  .pasos{
+    font-size:12px;
+    color:var(--ink-3);
+    font-family:"IBM Plex Mono",monospace;
+    white-space:nowrap;
+  }
+  .contenido{
+    background:var(--surface);
+    border-left:3px solid var(--accent);
+    padding:12px 16px;
+    margin:14px 0 4px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:14px;
+    overflow-x:auto;
+    white-space:pre;
+  }
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 22px;
+    font-size:12px;
+    color:var(--ink-3);
+    font-family:"IBM Plex Mono",monospace;
+    margin-bottom:20px;
+  }
+
+  /* ---------- huella ---------- */
+  .huella-cap{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:7px;
+  }
+  .huella-scroll{overflow-x:auto;padding-bottom:4px;}
+  .huella{
+    display:grid;
+    grid-template-columns:repeat(64,1fr);
+    gap:1px;
+    min-width:576px;
+  }
+  .huella span{
+    display:block;
+    height:34px;
+    border-radius:1px;
+    background:var(--cell);
+  }
+  .hex{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    line-height:1.5;
+    word-break:break-all;
+    margin-top:9px;
+    color:var(--ink);
+    letter-spacing:.02em;
+  }
+  .veredicto{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    margin-top:16px;
+    padding:7px 13px 7px 11px;
+    border-radius:2px;
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+  }
+  .veredicto::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:currentColor;
+  }
+  .v-ok{background:var(--ok-soft);color:var(--ok);}
+  .v-alt{background:var(--alt-soft);color:var(--alt);}
+  .v-base{background:var(--surface-2);color:var(--ink-2);}
+  .nota{
+    font-size:15px;
+    color:var(--ink-2);
+    max-width:64ch;
+    margin-top:14px;
+  }
+
+  /* ---------- avalancha ---------- */
+  .avalancha{
+    background:var(--surface);
+    border:1px solid var(--line-soft);
+    padding:26px 26px 22px;
+    margin-top:8px;
+  }
+  .cifras{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:20px 26px;
+    margin:20px 0 4px;
+  }
+  .cifra b{
+    display:block;
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:700;
+    font-size:34px;
+    line-height:1.05;
+    letter-spacing:-.02em;
+    color:var(--accent);
+    font-variant-numeric:tabular-nums;
+  }
+  .cifra small{
+    display:block;
+    font-size:12.5px;
+    color:var(--ink-3);
+    margin-top:4px;
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    letter-spacing:.02em;
+  }
+
+  /* ---------- tabla ---------- */
+  .tabla-scroll{overflow-x:auto;margin-top:6px;}
+  table{
+    border-collapse:collapse;
+    width:100%;
+    min-width:620px;
+    font-size:14px;
+  }
+  th{
+    text-align:left;
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    font-size:11px;
+    color:var(--ink-3);
+    padding:0 14px 9px 0;
+    border-bottom:1px solid var(--ink);
+    white-space:nowrap;
+  }
+  td{
+    padding:13px 14px 13px 0;
+    border-bottom:1px solid var(--line-soft);
+    vertical-align:top;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    font-variant-numeric:tabular-nums;
+  }
+  td.num-col{color:var(--ink-3);}
+  .tag{
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .t-ok{background:var(--ok-soft);color:var(--ok);}
+  .t-alt{background:var(--alt-soft);color:var(--alt);}
+  .t-base{background:var(--surface-2);color:var(--ink-2);}
+
+  /* ---------- conclusiones ---------- */
+  ol.concl{
+    list-style:none;
+    counter-reset:c;
+    padding:0;
+    margin:20px 0 0;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  ol.concl li{
+    counter-increment:c;
+    display:grid;
+    grid-template-columns:34px 1fr;
+    gap:14px;
+    max-width:70ch;
+  }
+  ol.concl li::before{
+    content:counter(c,decimal-leading-zero);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;
+    font-weight:600;
+    color:var(--accent);
+    padding-top:5px;
+  }
+  ol.concl strong{
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:600;
+    font-size:17px;
+    display:block;
+    margin-bottom:2px;
+  }
+
+  /* ---------- reproducir ---------- */
+  .repro{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:1px;
+    background:var(--line-soft);
+    border:1px solid var(--line-soft);
+    margin-top:20px;
+  }
+  .repro > div{
+    background:var(--paper);
+    padding:18px 18px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .repro h4{
+    font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-weight:600;
+    font-size:15px;
+    margin:0;
+  }
+  .repro code{
+    display:block;
+    font-size:12.5px;
+    background:var(--surface);
+    padding:9px 11px;
+    overflow-x:auto;
+    white-space:pre;
+    color:var(--ink-2);
+  }
+  .repro p{font-size:13.5px;color:var(--ink-3);margin:0;}
+  a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px;}
+  a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  footer{
+    margin-top:56px;
+    padding-top:18px;
+    border-top:2px solid var(--ink);
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 24px;
+    justify-content:space-between;
+  }
+
+  @media (max-width:560px){
+    .wrap{padding:0 18px 72px;}
+    .estado-head{flex-wrap:wrap;gap:8px 14px;}
+    .pasos{white-space:normal;}
+  }
+  @media print{
+    body{background:#fff;}
+    .huella span{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">
+      <span class="label">Laboratorio n.&deg; 2</span><span class="sep">/</span>
+      <span class="label">Sistemas de Informacion Gerencial</span><span class="sep">/</span>
+      <span class="label">SHA-256</span>
+    </div>
+    <h1>La huella <span class="thin">de un archivo</span></h1>
+    <p class="deck">Tres estados del mismo archivo plano, tres sumas de verificacion.
+      Lo que cambia, lo que no cambia, y por que eso alcanza para probar integridad.</p>
+  </header>
+
+  <div class="ficha">
+    <div><span class="label">Estudiante</span><b>Angel Del Biondo</b></div>
+    <div><span class="label">Archivo</span><b>archivo-plano.txt</b></div>
+    <div><span class="label">Algoritmo</span><b>SHA-256</b></div>
+    <div><span class="label">Longitud</span><b>64 hex / 256 bits</b></div>
+  </div>
+
+  <section class="intro">
+    <h2>Que es una suma de verificacion</h2>
+    <p>Un checksum es una cadena de longitud fija calculada a partir del contenido
+      completo de un archivo. Funciona como huella digital: identifica al archivo sin
+      revelarlo y no permite reconstruirlo a la inversa. SHA-256 devuelve siempre
+      64 caracteres hexadecimales, pese el archivo 17 bytes o 17 gigabytes.</p>
+    <p>El laboratorio somete esa idea a la prueba mas simple posible: se toma un archivo,
+      se altera, y se devuelve exactamente a su estado inicial. Si el checksum sirve,
+      debe delatar la alteracion y debe reconocer el regreso.</p>
+    <p class="nota">Cada estado se acompana de su <strong>franja de huella</strong>: los 64 caracteres
+      del hash dibujados como 64 columnas, con la intensidad de cada columna dada por el valor
+      del digito (0 a f). Es la misma informacion de la cadena hexadecimal, en una forma que el
+      ojo puede comparar de un vistazo.</p>
+  </section>
+
+  <section>
+    <div class="estado">
+      <div class="estado-head">
+        <span class="num">01</span>
+        <h3>Original</h3>
+        <span class="pasos">pasos 1 &ndash; 4</span>
+      </div>
+      <p>Se crea el archivo plano y se ingresa el nombre y apellido. Este hash es la
+        referencia contra la que se compara todo lo demas.</p>
+      <div class="contenido">Angel Del Biondo</div>
+      <div class="meta"><span>17 bytes</span><span>16 caracteres + salto de linea</span></div>
+
+      <div class="huella-cap"><span class="label">Franja de huella</span><span class="label">64 columnas</span></div>
+      <div class="huella-scroll"><div class="huella" data-hash="81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b"></div></div>
+      <div class="hex">81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b</div>
+      <div class="veredicto v-base">Valor de referencia</div>
+    </div>
+
+    <div class="estado">
+      <div class="estado-head">
+        <span class="num">02</span>
+        <h3>Modificado</h3>
+        <span class="pasos">pasos 5 &ndash; 6</span>
+      </div>
+      <p>Se abre el archivo, se extiende el texto y se salva. El contenido anterior sigue
+        intacto dentro del archivo: solo se agrego texto al final.</p>
+      <div class="contenido">Angel Del Biondo - Sistemas de Informacion Gerencial</div>
+      <div class="meta"><span>53 bytes</span><span>+36 bytes respecto al estado 01</span></div>
+
+      <div class="huella-cap"><span class="label">Franja de huella</span><span class="label">64 columnas</span></div>
+      <div class="huella-scroll"><div class="huella" data-hash="deed9fb8a8c719b4a2452840927679bb2b545b6f46a2e3f74df71c95739c8732"></div></div>
+      <div class="hex">deed9fb8a8c719b4a2452840927679bb2b545b6f46a2e3f74df71c95739c8732</div>
+      <div class="veredicto v-alt">Diferente al estado 01</div>
+      <p class="nota">Los dos hashes no se parecen en nada, ni siquiera en el primer caracter,
+        aunque el archivo conserva integro su texto original. Un hash no es un resumen del
+        contenido: es un valor que depende de todos los bytes a la vez.</p>
+    </div>
+
+    <div class="estado">
+      <div class="estado-head">
+        <span class="num">03</span>
+        <h3>Restaurado</h3>
+        <span class="pasos">pasos 7 &ndash; 8</span>
+      </div>
+      <p>Se devuelve el texto a su forma original y se salva de nuevo. El archivo cambio de
+        fecha de modificacion, pero no de contenido.</p>
+      <div class="contenido">Angel Del Biondo</div>
+      <div class="meta"><span>17 bytes</span><span>identico byte a byte al estado 01</span></div>
+
+      <div class="huella-cap"><span class="label">Franja de huella</span><span class="label">64 columnas</span></div>
+      <div class="huella-scroll"><div class="huella" data-hash="81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b"></div></div>
+      <div class="hex">81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b</div>
+      <div class="veredicto v-ok">Identico al estado 01</div>
+      <p class="nota">La franja vuelve a ser exactamente la del estado 01. La fecha de
+        modificacion cambio y el hash no: la huella responde al contenido y a nada mas.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Efecto avalancha, medido</h2>
+    <div class="avalancha">
+      <p>Comparando bit a bit el hash del estado 01 contra el del estado 02, sobre el mismo
+        archivo con texto agregado al final:</p>
+      <div class="cifras">
+        <div class="cifra"><b>113<small style="display:inline;font-size:20px;color:var(--ink-3);">/256</small></b><small>bits distintos entre los dos hashes</small></div>
+        <div class="cifra"><b>44,1&#8202;%</b><small>de los bits cambio (lo esperado ronda 50&#8202;%)</small></div>
+        <div class="cifra"><b>9<small style="display:inline;font-size:20px;color:var(--ink-3);">/64</small></b><small>caracteres coinciden, por puro azar</small></div>
+        <div class="cifra"><b>0</b><small>informacion recuperable del texto original</small></div>
+      </div>
+      <p class="nota">Un buen hash reparte el cambio: alterar el archivo deberia voltear
+        cerca de la mitad de los bits, sin importar si el cambio fue de un byte o de treinta y seis.
+        Las coincidencias sueltas de caracteres son estadisticas, no restos del texto anterior.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tabla comparativa</h2>
+    <div class="tabla-scroll">
+      <table>
+        <thead>
+          <tr><th>N.&deg;</th><th>Estado</th><th>Bytes</th><th>SHA-256</th><th>Contra el estado 01</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num-col">01</td><td>Original</td><td>17</td>
+            <td>81de97d0&hellip;63d8d89b</td><td><span class="tag t-base">Referencia</span></td>
+          </tr>
+          <tr>
+            <td class="num-col">02</td><td>Modificado</td><td>53</td>
+            <td>deed9fb8&hellip;739c8732</td><td><span class="tag t-alt">Diferente</span></td>
+          </tr>
+          <tr>
+            <td class="num-col">03</td><td>Restaurado</td><td>17</td>
+            <td>81de97d0&hellip;63d8d89b</td><td><span class="tag t-ok">Identico</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Conclusiones</h2>
+    <ol class="concl">
+      <li><div><strong>El hash depende solo del contenido</strong>
+        No influyen el nombre del archivo, su ruta, su fecha ni el equipo donde se calcule.
+        El mismo texto produce el mismo SHA-256 en cualquier maquina del mundo, y esa es
+        justamente la propiedad que lo vuelve util para verificar.</div></li>
+      <li><div><strong>El cambio mas pequeno destruye la coincidencia</strong>
+        No existe una alteracion tan menor que pase inadvertida: el hash resultante no guarda
+        parecido con el anterior, asi que no hay forma de disimular una modificacion.</div></li>
+      <li><div><strong>Volver al contenido exacto devuelve el hash exacto</strong>
+        La verificacion es repetible: restaurar el texto original reprodujo el valor del paso 4
+        caracter por caracter. La operacion no es reversible en el otro sentido, del hash no se
+        obtiene el texto.</div></li>
+      <li><div><strong>Aplicacion gerencial</strong>
+        Permite validar que respaldos, contratos digitales, estados financieros o instaladores
+        descargados no fueron alterados por error humano, falla de disco o manipulacion dolosa,
+        comparando 64 caracteres en lugar de revisar el archivo completo.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Como reproducir la verificacion</h2>
+    <p>Los tres metodos devuelven exactamente el mismo valor sobre el mismo archivo.</p>
+    <div class="repro">
+      <div>
+        <h4>Navegador</h4>
+        <p>Herramienta de referencia del laboratorio. Se sube el archivo y se lee la fila SHA256.</p>
+        <code>defuse.ca/checksums.htm</code>
+      </div>
+      <div>
+        <h4>Windows &middot; PowerShell</h4>
+        <p>Incluido en el sistema, no requiere instalar nada.</p>
+        <code>Get-FileHash .\archivo-plano.txt -Algorithm SHA256</code>
+      </div>
+      <div>
+        <h4>Linux &middot; macOS</h4>
+        <p>Utilidad estandar de linea de comandos.</p>
+        <code>sha256sum archivo-plano.txt</code>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="label">Angel Del Biondo &middot; Laboratorio n.&deg; 2</span>
+    <span class="label">Sistemas de Informacion Gerencial &middot; 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var ref = "81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b";
+    var franjas = document.querySelectorAll(".huella");
+    for (var i = 0; i < franjas.length; i++) {
+      var h = franjas[i].getAttribute("data-hash");
+      var frag = document.createDocumentFragment();
+      for (var j = 0; j < h.length; j++) {
+        var v = parseInt(h[j], 16);              // 0 a 15
+        var cel = document.createElement("span");
+        cel.style.opacity = (0.16 + (v / 15) * 0.84).toFixed(3);
+        cel.title = "posicion " + (j + 1) + " · " + h[j];
+        frag.appendChild(cel);
+      }
+      franjas[i].appendChild(frag);
+      franjas[i].setAttribute("role", "img");
+      franjas[i].setAttribute("aria-label",
+        "Representacion grafica del hash " + h + (h === ref ? ", identico al estado 01" : ""));
+    }
+  })();
+</script>

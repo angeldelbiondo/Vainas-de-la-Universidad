@@ -1,0 +1,32 @@
+LABORATORIO #2 - CHECKSUM / SUMA DE VERIFICACION
+Algoritmo: SHA-256
+Autor: Angel Del Biondo
+Herramienta de referencia: https://defuse.ca/checksums.htm
+
+--------------------------------------------------------------------------
+ESTADO 1 - ORIGINAL   (evidencia/01-original.txt)
+Contenido : Angel Del Biondo
+Tamano    : 17 bytes
+SHA-256   : 81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b
+
+--------------------------------------------------------------------------
+ESTADO 2 - MODIFICADO (evidencia/02-modificado.txt)
+Contenido : Angel Del Biondo - Sistemas de Informacion Gerencial
+Tamano    : 53 bytes
+SHA-256   : deed9fb8a8c719b4a2452840927679bb2b545b6f46a2e3f74df71c95739c8732
+Resultado : DIFERENTE al Estado 1 -> el archivo fue alterado
+
+--------------------------------------------------------------------------
+ESTADO 3 - RESTAURADO (evidencia/03-restaurado.txt)
+Contenido : Angel Del Biondo
+Tamano    : 17 bytes
+SHA-256   : 81de97d0e767fb855ed05b385d787a3c62247dbf3ec2fff31f64eabc63d8d89b
+Resultado : IDENTICO al Estado 1 -> integridad recuperada
+
+--------------------------------------------------------------------------
+CONCLUSION
+El hash SHA-256 depende del contenido exacto del archivo, no de su nombre,
+fecha ni ubicacion. Un solo byte distinto produce un hash completamente
+distinto (efecto avalancha). Al devolver el contenido a su estado original
+el hash vuelve a ser exactamente el mismo, lo que demuestra que el checksum
+sirve como huella digital para verificar integridad de datos.
