@@ -141,14 +141,27 @@ Los tres metodos devuelven exactamente el mismo valor.
 
 ```
 Laboratorio-02-Checksum/
+├── Laboratorio-02-Checksum-AngelDelBiondo.pdf  — ENTREGABLE (7 paginas)
+├── cuaderno-lab2.html     — fuente del PDF, estilo cuaderno con capturas
 ├── README.md              — informe del laboratorio
-├── informe.html           — informe visual (imprimible a PDF)
+├── informe.html           — informe visual con las franjas de huella
 ├── archivo-plano.txt      — archivo del laboratorio (estado final = original)
 ├── verificar.sh           — script de verificacion (Linux/macOS)
 ├── verificar.ps1          — script de verificacion (Windows)
+├── capturas/
+│   ├── terminal-1.png     — pasos 1 a 4 (salida real de consola)
+│   ├── terminal-2.png     — pasos 5 y 6
+│   ├── terminal-3.png     — pasos 7 y 8
+│   └── estado-1/2/3.png   — franjas de huella de cada estado
 └── evidencia/
     ├── 01-original.txt
     ├── 02-modificado.txt
     ├── 03-restaurado.txt
     └── hashes.txt         — registro de los tres SHA-256
 ```
+
+> **Nota sobre defuse.ca:** las capturas son de consola (`sha256sum`) porque el
+> entorno donde se ejecuto el laboratorio bloquea el acceso a `defuse.ca`. El
+> algoritmo es el mismo SHA-256, asi que el valor que devuelve esa pagina es
+> identico al de las capturas. Para adjuntar la captura del sitio basta subir
+> `evidencia/01-original.txt` alli y comparar con `81de97d0…63d8d89b`.
