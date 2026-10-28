@@ -1,0 +1,58 @@
+# Paso 20 - tras T01 (R01-R04). Esperado: AC01-AC04 en verde; AC05-AC08 pendientes
+# fecha: 2026-10-28 | Python 3.13.17
+# comando: python -m unittest discover -s tests -v
+
+test_r01_registro (test_prestamos.TestPrestamos.test_r01_registro) ... ok
+test_r02_vencimiento (test_prestamos.TestPrestamos.test_r02_vencimiento) ... ok
+test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) ... ok
+test_r04_campos_vacios (test_prestamos.TestPrestamos.test_r04_campos_vacios) ... ok
+test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos) ... FAIL
+test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico) ... FAIL
+test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver) ... ERROR
+test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente) ... ERROR
+
+======================================================================
+ERROR: test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 51, in test_r07_devolver
+    r = devolver_prestamo(self.p, "Ana", "Python")
+  File "prestamos.py", line 48, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 56, in test_r08_devolucion_inexistente
+    devolver_prestamo(self.p, "Ana", "Python")
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "prestamos.py", line 48, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+FAIL: test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 35, in test_r05_maximo_activos
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 43, in test_r06_libro_unico
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.004s
+
+FAILED (failures=2, errors=2)
+
+# codigo de salida: 1
