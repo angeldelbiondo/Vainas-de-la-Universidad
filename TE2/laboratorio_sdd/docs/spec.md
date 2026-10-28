@@ -56,6 +56,33 @@ Ninguna decision cambia R01-R08; solo fijan la conducta donde el texto era ambig
 
 Resultado: sin ambiguedades abiertas que alteren la conducta del programa.
 
+## Criterios de aceptacion (paso 9)
+
+```
+AC01 (R01): al registrar Ana / Python / 2026-09-01,
+  queda un prestamo activo con los valores acordados (D12).
+AC02 (R02): el vencimiento es 2026-09-15.
+AC03 (R03): fecha malformada o imposible -> ValueError.
+AC04 (R04): texto vacio o espacios -> ValueError.
+AC05 (R05): al intentar el cuarto prestamo activo -> ValueError.
+AC06 (R06): libro activo repetido, incluso otro usuario -> ValueError.
+AC07 (R07): devolver cambia devuelto a True.
+AC08 (R08): devolver sin prestamo activo -> ValueError.
+En cada caso fallido, la lista queda intacta.
+```
+
+## Punto de control 1 (paso 10): antes de programar
+
+Revision realizada el 2026-10-28 por angeldelbiondo.
+
+- [x] Alcance explicito: objetivo y "fuera de alcance" definidos al inicio.
+- [x] R01-R08 sin contradicciones: la auditoria (D01-D13) no encontro conflictos entre requisitos, solo huecos, ya cerrados.
+- [x] AC01-AC08 verificables: cada uno se traduce a una prueba unittest con resultado binario (ver `traceability.md`).
+- [x] Fechas y limites definidos: formato estricto (D01), plazo 14 dias (R02), tope 3 activos (R05), desborde de calendario (D04).
+- [x] Comportamiento ante errores definido: `ValueError` + lista intacta (R03-R06, R08, D03, D04, D08, D10, D11).
+
+Todas las casillas revisadas: se autoriza continuar al plan.
+
 ## Control de aprobacion
 
 Version 1.0 revisada: fecha 2026-10-28; aprobador(es) angeldelbiondo
