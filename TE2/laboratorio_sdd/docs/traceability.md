@@ -5,7 +5,7 @@ Nada se implementa por accidente: cada requisito baja hasta una prueba, una tare
 ```
 REQUISITO  ->  PRUEBA DE ACEPTACION  ->  TAREA  ->  EVIDENCIA
 R02: vencimiento 14 dias -> AC02: fecha + 14 dias -> T01: fechas -> test_r02: OK
-R05: maximo 3            -> AC05: cuarto bloqueado -> T02: limite -> test_r05: OK
+R05: maximo 3 (v1.0) / 2 (v1.1) -> AC05: bloqueo del excedente -> T02: limite -> test_r05: OK
 ```
 
 ## Matriz por grupos (paso 14)
@@ -18,35 +18,66 @@ R05: maximo 3            -> AC05: cuarto bloqueado -> T02: limite -> test_r05: O
 
 ## Matriz completa R -> AC -> Tarea -> Prueba -> Evidencia
 
-| Req | AC   | Tarea | Prueba (`tests/test_prestamos.py`)  | Evidencia |
-|-----|------|-------|-------------------------------------|-----------|
-| R01 | AC01 | T01   | `test_r01_registro`                 | pendiente |
-| R02 | AC02 | T01   | `test_r02_vencimiento`              | pendiente |
-| R03 | AC03 | T01   | `test_r03_fecha_invalida`           | pendiente |
-| R04 | AC04 | T01   | `test_r04_campos_vacios`            | pendiente |
-| R05 | AC05 | T02   | `test_r05_maximo_activos`           | pendiente |
-| R06 | AC06 | T02   | `test_r06_libro_unico`              | pendiente |
-| R07 | AC07 | T03   | `test_r07_devolver`                 | pendiente |
-| R08 | AC08 | T03   | `test_r08_devolucion_inexistente`   | pendiente |
+Evidencia en `docs/evidencia/`. Comando: `python -m unittest discover -s tests -v`
 
-## Verificacion manual de decisiones sin prueba automatica
+| Req | AC   | Tarea | Prueba (`tests/test_prestamos.py`) | Codigo (`prestamos.py`)               | Evidencia v1.0                          | Evidencia v1.1 |
+|-----|------|-------|------------------------------------|---------------------------------------|-----------------------------------------|----------------|
+| R01 | AC01 | T01   | `test_r01_registro`                | `registrar_prestamo` L30-55           | rojo `01` -> verde `02`, `04`           | pendiente      |
+| R02 | AC02 | T01   | `test_r02_vencimiento`             | `PLAZO_DIAS` L5, L36-39               | rojo `01` -> verde `02`, `04`           | pendiente      |
+| R03 | AC03 | T01   | `test_r03_fecha_invalida`          | `_fecha` L20-23                       | rojo `01` -> verde `02`, `04`; M01, M02 | pendiente      |
+| R04 | AC04 | T01   | `test_r04_campos_vacios`           | `_texto` L11-17                       | rojo `01` -> verde `02`, `04`; M03      | pendiente      |
+| R05 | AC05 | T02   | `test_r05_maximo_activos`          | `MAX_PRESTAMOS_ACTIVOS` L6, L42-43    | rojo `03` -> verde `04`; N3 (tope 3)    | pendiente      |
+| R06 | AC06 | T02   | `test_r06_libro_unico`             | `registrar_prestamo` L44-45           | rojo `03` -> verde `04`; N2             | pendiente      |
+| R07 | AC07 | T03   | `test_r07_devolver`                | `devolver_prestamo` L58-66            | rojo `03` -> verde `04`; M06            | pendiente      |
+| R08 | AC08 | T03   | `test_r08_devolucion_inexistente`  | `devolver_prestamo` L67               | rojo `03` -> verde `04`; M07            | pendiente      |
 
-Las decisiones D01-D13 que no tienen una de las 8 pruebas del contrato se comprueban a mano (paso 23).
+Archivos de evidencia:
+`01_linea_base_roja` (8 pruebas en ERROR) · `02_tras_T01` (4 verdes, 2 FAIL, 2 ERROR) ·
+`03_tras_T02` (avanzan hasta `devolver_prestamo`) · `04_v1_0_verde` (8 de 8) ·
+`05_verificacion_manual_v1_0` (N1-N3 y M01-M08) · `06_mutacion_requisito_sin_cubrir`.
 
-| Id  | Decision verificada | Evidencia |
-|-----|---------------------|-----------|
-| M01 | D01: `20260901`, `2026-9-1`, `2026-09-01\n` rechazadas | pendiente |
-| M02 | D02: `" 2026-09-01"` rechazada | pendiente |
-| M03 | D03: `None`, `123` como usuario/libro/fecha -> ValueError | pendiente |
-| M04 | D04: `9999-12-25` -> ValueError y lista intacta | pendiente |
-| M05 | D05: "Ana" y "ana" son distintos | pendiente |
-| M06 | D07: libro devuelto puede volver a prestarse; devolver actua sobre el activo | pendiente |
-| M07 | D09: devolver a nombre de otro usuario -> ValueError | pendiente |
-| M08 | D10: `prestamos` no-lista -> ValueError; dict devuelto es el de la lista | pendiente |
+## Verificacion manual de decisiones sin prueba automatica (paso 23)
+
+Script: `docs/evidencia/verificacion_manual.py`. En cada caso fallido comprueba ademas que la lista queda intacta.
+
+| Id  | Que se verifica                                                                        | Decision | v1.0 (`05`) | v1.1 |
+|-----|----------------------------------------------------------------------------------------|----------|-------------|------|
+| N1  | fecha imposible `2026-02-30` -> ValueError, lista intacta                              | R03      | OK          | pendiente |
+| N2  | libro ya prestado a otro usuario -> ValueError, lista intacta                          | R06      | OK          | pendiente |
+| N3  | prestamo activo numero N+1 del mismo usuario -> ValueError, lista intacta              | R05      | OK (4o)     | pendiente |
+| M01 | `20260901`, `2026-9-1`, `2026-09-01\n`, `2026-W36-2`, `...T00` rechazadas              | D01      | OK          | pendiente |
+| M02 | `" 2026-09-01"` rechazada (la fecha no se recorta)                                     | D02      | OK          | pendiente |
+| M03 | `None`, `123`, `date(...)` como usuario/libro/fecha -> ValueError, no TypeError        | D03, D08 | OK          | pendiente |
+| M04 | `9999-12-25` -> ValueError; `9999-12-17` -> vence `9999-12-31`                         | D04      | OK          | pendiente |
+| M05 | "Ana"/"Python" y "ana"/"python" son distintos                                          | D05      | OK          | pendiente |
+| M06 | textos recortados; libro devuelto se vuelve a prestar; devolver actua sobre el activo  | R01, D07 | OK          | pendiente |
+| M07 | devolver a nombre de otro usuario o con libro vacio -> ValueError                      | D08, D09 | OK          | pendiente |
+| M08 | `prestamos` no-lista -> ValueError; el dict devuelto es el objeto de la lista          | D10      | OK          | pendiente |
+
+## Revision del codigo contra la spec v1.0 (paso 24)
+
+Realizada el 2026-10-28 por angeldelbiondo, con `git diff` por tarea y sin tomar como validacion lo que diga la IA.
+
+| Req | Cumple | Comprobacion independiente                                                                    |
+|-----|--------|-----------------------------------------------------------------------------------------------|
+| R01 | si     | `append` en L54 devuelve el mismo dict (M08); textos recortados (M06)                         |
+| R02 | si     | `timedelta(days=PLAZO_DIAS)`; AC02 `2026-09-01` -> `2026-09-15`; borde de calendario (M04)    |
+| R03 | si     | regex ASCII + `fullmatch` + `fromisoformat`; 5 formatos laxos rechazados (M01)                |
+| R04 | si     | `_texto`: `strip()` y rechazo de vacio y no-`str` (M03)                                       |
+| R05 | si     | cuenta solo activos del mismo usuario (L42); devueltos no cuentan (`test_r05`)                |
+| R06 | si     | cualquier activo con el mismo libro, de cualquier usuario (L44); devuelto libera (`test_r06`) |
+| R07 | si     | marca `devuelto=True` y devuelve el dict (L65-66)                                             |
+| R08 | si     | sin activo coincidente -> ValueError (L67); doble devolucion cubierta por `test_r08`          |
+
+- Funciones no solicitadas: ninguna. Publicas solo `registrar_prestamo` y `devolver_prestamo`; el resto son auxiliares `_privadas` del plan.
+- Sin UI, red, BD, login, multas, renovaciones ni fecha del sistema (`grep` de `datetime.now|today|open(|import ` solo muestra `re` y `datetime.date/timedelta`).
+- Todo `append` / `devuelto = True` ocurre DESPUES de toda validacion (orden del plan).
+- Limite: `06_mutacion_requisito_sin_cubrir` muestra que las 8 pruebas pueden estar verdes con un requisito (D01) roto; por eso existe la verificacion manual.
 
 ## Puntos de control
 
-| Control | Documento                | Fecha      | Estado    |
-|---------|--------------------------|------------|-----------|
+| Control | Documento                      | Fecha      | Estado   |
+|---------|--------------------------------|------------|----------|
 | 1       | `spec.md` (antes de programar) | 2026-10-28 | revisado |
 | 2       | `tasks.md` (plan y tareas)     | 2026-10-28 | revisado |
+| 3       | codigo vs spec v1.0 (arriba)   | 2026-10-28 | revisado |

@@ -13,11 +13,11 @@ Regla: ejecutar las tareas en orden, una por iteracion.
 
 | Tarea | Requisitos | Alcance permitido                                  | Estado    |
 |-------|------------|----------------------------------------------------|-----------|
-| T01   | R01-R04    | `registrar_prestamo`: validar, fecha, `append`     | pendiente |
-| T02   | R05-R06    | solo reglas de limite y libro unico en registrar   | pendiente |
-| T03   | R07-R08    | `devolver_prestamo`                                | pendiente |
-| T04   | R01-R08    | solo ejecutar pruebas y corregir por referencia    | pendiente |
-| T05   | R01-R08    | evidencia, trazabilidad, `git diff`                | pendiente |
+| T01   | R01-R04    | `registrar_prestamo`: validar, fecha, `append`     | hecha (evid. `02`) |
+| T02   | R05-R06    | solo reglas de limite y libro unico en registrar   | hecha (evid. `03`) |
+| T03   | R07-R08    | `devolver_prestamo`                                | hecha (evid. `04`) |
+| T04   | R01-R08    | solo ejecutar pruebas y corregir por referencia    | hecha v1.0 (8/8, sin correcciones) |
+| T05   | R01-R08    | evidencia, trazabilidad, `git diff`                | hecha v1.0 (`traceability.md`) |
 
 ## Punto de control 2 (paso 15): plan y tareas
 
