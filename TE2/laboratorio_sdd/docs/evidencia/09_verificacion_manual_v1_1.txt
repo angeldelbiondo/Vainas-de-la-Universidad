@@ -1,38 +1,39 @@
-# Paso 23/29 - verificacion manual spec v1.1 (casos negativos + decisiones D01-D13)
+# Paso 23/29 - verificacion manual spec v1.1 (limite 2): casos negativos + decisiones D01-D13
 # fecha: 2026-10-28 | Python 3.13.17
 # comando: python docs/evidencia/verificacion_manual.py
 
 Limite de activos en vigor: 2
 
 -- Tres casos negativos obligatorios --
-[OK ] N1     ValueError, lista intacta=True | fecha imposible 2026-02-30
-[OK ] N2     ValueError, lista intacta=True | libro ya prestado (otro usuario)
-[OK ] N3     ValueError, lista intacta=True | prestamo activo numero 3 del mismo usuario
+[OK ] N1   ValueError, lista intacta=True | fecha imposible 2026-02-30
+[OK ] N2   ValueError, lista intacta=True | libro ya prestado (otro usuario)
+[OK ] N3   ValueError, lista intacta=True | prestamo activo numero 3 del mismo usuario
 
 -- Decisiones sin prueba automatica --
-[OK ] M01    ValueError, lista intacta=True | formato laxo '20260901'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-9-1'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-09-01\n'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-W36-2'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-09-01T00'
-[OK ] M02    ValueError, lista intacta=True | fecha con espacio inicial
-[OK ] M03    ValueError, lista intacta=True | no-str (None, 'L', '2026-09-01')
-[OK ] M03    ValueError, lista intacta=True | no-str ('Ana', 123, '2026-09-01')
-[OK ] M03    ValueError, lista intacta=True | no-str ('Ana', 'L', None)
-[OK ] M03    ValueError, lista intacta=True | no-str ('Ana', 'L', 20260901)
-[OK ] M03    ValueError, lista intacta=True | no-str ('Ana', 'L', datetime.date(2026, 9, 1))
-[OK ] M03    ValueError, lista intacta=True | devolver con usuario None
-[OK ] M04    ValueError, lista intacta=True | 9999-12-25 desborda el calendario
-[OK ] M04    9999-12-17 + 14 = 9999-12-31 es el ultimo valido
-[OK ] M05    'Ana'/'Python' y 'ana'/'python' son distintos
-[OK ] M06    textos recortados al guardar
-[OK ] M06    libro devuelto puede volver a prestarse (historial=2)
-[OK ] M06    devolver actua sobre el prestamo ACTIVO, no el viejo
-[OK ] M07    ValueError, lista intacta=True | devolver a nombre de otro usuario
-[OK ] M07    ValueError, lista intacta=True | devolver con libro vacio
-[OK ] M08    ValueError, lista intacta=True | 'prestamos' no es list (tupla) en registrar
-[OK ] M08    ValueError, lista intacta=True | 'prestamos' no es list (None) en devolver
-[OK ] M08    el dict devuelto es el mismo objeto de la lista
+[OK ] M01  ValueError, lista intacta=True | formato laxo '20260901'
+[OK ] M01  ValueError, lista intacta=True | formato laxo '2026-9-1'
+[OK ] M01  ValueError, lista intacta=True | formato laxo '2026-09-01\n'
+[OK ] M01  ValueError, lista intacta=True | formato laxo '2026-W36-2'
+[OK ] M01  ValueError, lista intacta=True | formato laxo '2026-09-01T00'
+[OK ] M02  ValueError, lista intacta=True | fecha con espacio inicial
+[OK ] M03  ValueError, lista intacta=True | no-str (None, 'L', '2026-09-01')
+[OK ] M03  ValueError, lista intacta=True | no-str ('Ana', 123, '2026-09-01')
+[OK ] M03  ValueError, lista intacta=True | no-str ('Ana', 'L', None)
+[OK ] M03  ValueError, lista intacta=True | no-str ('Ana', 'L', 20260901)
+[OK ] M03  ValueError, lista intacta=True | no-str ('Ana', 'L', datetime.date(2026, 9, 1))
+[OK ] M03  ValueError, lista intacta=True | devolver con usuario None
+[OK ] M04  ValueError, lista intacta=True | 9999-12-25 desborda el calendario
+[OK ] M04  9999-12-17 + 14 = 9999-12-31 es el ultimo valido
+[OK ] M05  'Ana'/'Python' y 'ana'/'python' son distintos
+[OK ] M06  textos recortados al guardar
+[OK ] M06  libro devuelto puede volver a prestarse (historial=2)
+[OK ] M06  devolver actua sobre el prestamo ACTIVO, no el viejo
+[OK ] M07  ValueError, lista intacta=True | devolver a nombre de otro usuario
+[OK ] M07  ValueError, lista intacta=True | devolver con libro vacio
+[OK ] M08  ValueError, lista intacta=True | 'prestamos' no es list (tupla) en registrar
+[OK ] M08  ValueError, lista intacta=True | 'prestamos' no es list (None) en devolver
+[OK ] M08  el dict devuelto es el mismo objeto de la lista
+[OK ] M09  el tope es POR USUARIO: Luis registra aunque Ana este en su limite
 
 Resultado: TODO OK
 

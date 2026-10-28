@@ -1,17 +1,35 @@
-# Mutacion (copia fuera del repo): se elimina la regex estricta de fecha (D01) en prestamos.py
-# Pregunta de reflexion 5: 8 pruebas verdes y aun asi un requisito sin cubrir
+# Mutaciones (copias fuera del repo, base v1.1): las 8 pruebas del contrato en verde con un requisito roto
+# Pregunta de reflexion 5: 8 pruebas verdes y aun asi existe un requisito no cubierto
 # fecha: 2026-10-28 | Python 3.13.17
 
-## 1) Pruebas de aceptacion (las 8 del contrato)
-----------------------------------------------------------------------
+## Base sin mutar (control)
 Ran 8 tests in 0.001s
 
 OK
+Resultado: TODO OK
 
-## 2) Verificacion manual M01 (formatos laxos)
-[MAL] M01    NO lanzo error | formato laxo '20260901'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-9-1'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-09-01\n'
-[MAL] M01    NO lanzo error | formato laxo '2026-W36-2'
-[OK ] M01    ValueError, lista intacta=True | formato laxo '2026-09-01T00'
+############ MUTACION A: se elimina la regex estricta de fecha (D01, R03)
+def _fecha(valor):
+    if not isinstance(valor, str):
+        raise ValueError("fecha debe tener formato AAAA-MM-DD")
+    return date.fromisoformat(valor)
+## 1) Las 8 pruebas de aceptacion
+Ran 8 tests in 0.001s
+
+OK
+## 2) Verificacion manual (solo fallos)
+[MAL] M01  NO lanzo error | formato laxo '20260901'
+[MAL] M01  NO lanzo error | formato laxo '2026-W36-2'
 Resultado: 2 comprobaciones fallidas
+
+############ MUTACION B: el tope cuenta TODOS los activos en vez de los del usuario (R05 'cada usuario')
+42:    if len(activos) >= MAX_PRESTAMOS_ACTIVOS:
+## 1) Las 8 pruebas de aceptacion
+Ran 8 tests in 0.001s
+
+OK
+## 2) Verificacion manual (solo fallos)
+[MAL] M09  excepcion inesperada ValueError: el usuario ya tiene el maximo de prestamos activos
+Resultado: 1 comprobaciones fallidas
+
+Conclusion: ocho verdes no prueban cobertura total; test_r05 solo usa al usuario Ana y test_r03 solo usa formatos que fromisoformat ya rechaza.
