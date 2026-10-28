@@ -1,4 +1,4 @@
-"""Gestor de prestamos de libros (spec v1.0). Python estandar, sin persistencia."""
+"""Gestor de prestamos de libros. Python estandar, sin persistencia."""
 import re
 from datetime import date, timedelta
 
@@ -56,4 +56,12 @@ def registrar_prestamo(prestamos, usuario, libro, fecha):
 
 
 def devolver_prestamo(prestamos, usuario, libro):
-    raise NotImplementedError("Pendiente de especificacion")
+    if not isinstance(prestamos, list):
+        raise ValueError("prestamos debe ser una lista")
+    usuario = _texto(usuario, "usuario")
+    libro = _texto(libro, "libro")
+    for prestamo in _activos(prestamos):
+        if prestamo["usuario"] == usuario and prestamo["libro"] == libro:
+            prestamo["devuelto"] = True
+            return prestamo
+    raise ValueError("no existe un prestamo activo para ese usuario y libro")
