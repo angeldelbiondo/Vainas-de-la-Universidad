@@ -3,7 +3,7 @@ import re
 from datetime import date, timedelta
 
 PLAZO_DIAS = 14
-MAX_PRESTAMOS_ACTIVOS = 3
+MAX_PRESTAMOS_ACTIVOS = 2
 
 _FORMATO_FECHA = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
 

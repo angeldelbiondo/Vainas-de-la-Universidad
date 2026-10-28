@@ -17,9 +17,9 @@ Regla: ejecutar las tareas en orden, una por iteracion.
 | T01   | R01-R04    | `registrar_prestamo`: validar, fecha, `append`     | hecha (evid. `02`) |
 | T02   | R05-R06    | solo reglas de limite y libro unico en registrar   | hecha (evid. `03`) |
 | T03   | R07-R08    | `devolver_prestamo`                                | hecha (evid. `04`) |
-| T04   | R01-R08    | solo ejecutar pruebas y corregir por referencia    | hecha v1.0 (8/8, sin correcciones) |
-| T05   | R01-R08    | evidencia, trazabilidad, `git diff`                | hecha v1.0 (`traceability.md`) |
-| T06   | R05        | SOLO la regla de limite en `prestamos.py`; sin tocar otras funciones ni otras pruebas | en curso (spec v1.1 y `test_r05` actualizados) |
+| T04   | R01-R08    | solo ejecutar pruebas y corregir por referencia    | hecha v1.0 (8/8, sin correcciones) y v1.1 (8/8, `08`) |
+| T05   | R01-R08    | evidencia, trazabilidad, `git diff`                | hecha v1.0 y v1.1 (`traceability.md`) |
+| T06   | R05        | SOLO la regla de limite en `prestamos.py`; sin tocar otras funciones ni otras pruebas | hecha (rojo `07` -> verde `08`; 1 linea cambiada) |
 
 ## Punto de control 2 (paso 15): plan y tareas
 
