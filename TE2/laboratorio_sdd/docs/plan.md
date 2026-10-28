@@ -1,6 +1,7 @@
-# Plan tecnico v1.0
+# Plan tecnico v1.1
 
-Basado en: `constitution.md` y `spec.md` v1.0 (aprobada).
+Basado en: `constitution.md` y `spec.md` v1.1 (aprobada).
+Cambio v1.0 -> v1.1: solo el valor de `MAX_PRESTAMOS_ACTIVOS` (3 -> 2); interfaces, orden de validacion y riesgos no cambian.
 
 - Archivo: prestamos.py; funciones registrar_prestamo y
   devolver_prestamo. tests/test_prestamos.py para aceptacion.
@@ -24,7 +25,7 @@ Ambas lanzan ValueError ante cualquier entrada invalida, sin mutar nada.
 | Elemento                    | Tipo       | Responsabilidad                                                              | Req.          |
 |-----------------------------|------------|------------------------------------------------------------------------------|---------------|
 | `PLAZO_DIAS = 14`           | constante  | plazo unico, sin numeros magicos                                             | R02           |
-| `MAX_PRESTAMOS_ACTIVOS = 3` | constante  | tope por usuario en UN solo lugar (facilita un cambio futuro de limite)      | R05           |
+| `MAX_PRESTAMOS_ACTIVOS = 2` | constante  | tope por usuario en UN solo lugar (facilita un cambio futuro de limite)      | R05           |
 | `_texto(valor, campo)`      | pura       | exige `str`, recorta, rechaza vacio                                          | R04, D03, D08 |
 | `_fecha(valor)`             | pura       | regex ASCII `[0-9]{4}-[0-9]{2}-[0-9]{2}` + `date.fromisoformat`              | R03, D01, D02 |
 | `_activos(prestamos)`       | pura       | filtra `devuelto == False`                                                   | D06           |
@@ -44,4 +45,4 @@ Orden de `devolver_prestamo`: tipo de lista -> textos -> buscar activo -> marcar
 | `date + timedelta` lanza `OverflowError` cerca de `9999-12-31`                 | capturar y convertir a `ValueError` (D04)                                |
 | Mutar la lista antes de terminar de validar                                    | `append` / `devuelto = True` son la ULTIMA instruccion                   |
 | Tipos no-`str` rompen `.strip()` con `AttributeError`                          | `isinstance` previo, `ValueError` explicito (D03)                        |
-| Cambios de limite (3 -> 2) dispersos por el codigo                             | constante unica `MAX_PRESTAMOS_ACTIVOS`                                  |
+| Cambios de limite (3 -> 2) dispersos por el codigo                             | constante unica `MAX_PRESTAMOS_ACTIVOS` (aplicado en v1.1: 1 linea)      |

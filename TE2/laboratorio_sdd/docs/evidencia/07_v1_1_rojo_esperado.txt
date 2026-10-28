@@ -1,0 +1,28 @@
+# Paso 27 - spec v1.1 y test_r05 actualizados, codigo AUN con limite 3. Esperado: solo R05 en rojo
+# fecha: 2026-10-28 | Python 3.13.17
+# comando: python -m unittest discover -s tests -v
+
+test_r01_registro (test_prestamos.TestPrestamos.test_r01_registro) ... ok
+test_r02_vencimiento (test_prestamos.TestPrestamos.test_r02_vencimiento) ... ok
+test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) ... ok
+test_r04_campos_vacios (test_prestamos.TestPrestamos.test_r04_campos_vacios) ... ok
+test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos) ... FAIL
+test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico) ... ok
+test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver) ... ok
+test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente) ... ok
+
+======================================================================
+FAIL: test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 35, in test_r05_maximo_activos
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.002s
+
+FAILED (failures=1)
+
+# codigo de salida: 1

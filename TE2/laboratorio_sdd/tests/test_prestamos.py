@@ -30,13 +30,13 @@ class TestPrestamos(unittest.TestCase):
         self.assertEqual(self.p, [])
 
     def test_r05_maximo_activos(self):
-        for b in ("A", "B", "C"):
+        for b in ("A", "B"):
             self.alta(b=b)
         with self.assertRaises(ValueError):
-            self.alta(b="D")
-        self.assertEqual(len(self.p), 3)
+            self.alta(b="C")
+        self.assertEqual(len(self.p), 2)
         devolver_prestamo(self.p, "Ana", "A")
-        self.alta(b="D")
+        self.alta(b="C")
 
     def test_r06_libro_unico(self):
         self.alta()

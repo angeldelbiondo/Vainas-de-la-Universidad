@@ -6,6 +6,7 @@ T02 [R05-R06]: rechazar exceso y libro prestado.
 T03 [R07-R08]: registrar devolucion o error.
 T04 [R01-R08]: ejecutar aceptacion y revisar errores.
 T05 [R01-R08]: documentar evidencia y revisar diff.
+T06 [R05]: cambio v1.1, limite de 3 a 2 (spec -> prueba roja -> codigo -> verde).
 Regla: ejecutar las tareas en orden, una por iteracion.
 ```
 
@@ -18,6 +19,7 @@ Regla: ejecutar las tareas en orden, una por iteracion.
 | T03   | R07-R08    | `devolver_prestamo`                                | hecha (evid. `04`) |
 | T04   | R01-R08    | solo ejecutar pruebas y corregir por referencia    | hecha v1.0 (8/8, sin correcciones) |
 | T05   | R01-R08    | evidencia, trazabilidad, `git diff`                | hecha v1.0 (`traceability.md`) |
+| T06   | R05        | SOLO la regla de limite en `prestamos.py`; sin tocar otras funciones ni otras pruebas | en curso (spec v1.1 y `test_r05` actualizados) |
 
 ## Punto de control 2 (paso 15): plan y tareas
 

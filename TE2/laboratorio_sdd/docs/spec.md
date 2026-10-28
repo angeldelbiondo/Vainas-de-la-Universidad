@@ -1,4 +1,4 @@
-# Especificacion: prestamos de libros (version 1.0)
+# Especificacion: prestamos de libros (version 1.1)
 
 Objetivo: registrar y devolver prestamos sin base de datos.
 Fuera de alcance: UI, login, multas, renovaciones, persistencia.
@@ -11,7 +11,7 @@ R01: registrar_prestamo(prestamos, usuario, libro, fecha)
 R02: fecha_vencimiento = fecha_prestamo + 14 dias calendario.
 R03: fecha debe ser valida y tener formato AAAA-MM-DD.
 R04: usuario y libro no pueden quedar vacios tras strip().
-R05: cada usuario admite a lo sumo 3 prestamos activos.
+R05: cada usuario admite a lo sumo 2 prestamos activos.   [v1.1; en v1.0 eran 3]
 R06: un libro admite a lo sumo un prestamo activo global.
 R07: devolver_prestamo(prestamos, usuario, libro)
      marca devuelto=True y devuelve ese dict.
@@ -26,7 +26,7 @@ Todo error produce ValueError y no modifica la lista.
 
 | Id  | Decision                                                                    | Afecta   |
 |-----|-----------------------------------------------------------------------------|----------|
-| N01 | Un usuario puede tener maximo 3 prestamos activos                           | R05      |
+| N01 | Un usuario puede tener maximo 2 prestamos activos (v1.1; en v1.0 eran 3)    | R05      |
 | N02 | Un libro no puede estar prestado a dos usuarios simultaneamente             | R06      |
 | N03 | El plazo es exactamente 14 dias calendario                                  | R02      |
 | N04 | La fecha se recibe en formato AAAA-MM-DD                                    | R03      |
@@ -64,7 +64,7 @@ AC01 (R01): al registrar Ana / Python / 2026-09-01,
 AC02 (R02): el vencimiento es 2026-09-15.
 AC03 (R03): fecha malformada o imposible -> ValueError.
 AC04 (R04): texto vacio o espacios -> ValueError.
-AC05 (R05): al intentar el cuarto prestamo activo -> ValueError.
+AC05 (R05): al intentar el tercer prestamo activo -> ValueError.   [v1.1; en v1.0 el cuarto]
 AC06 (R06): libro activo repetido, incluso otro usuario -> ValueError.
 AC07 (R07): devolver cambia devuelto a True.
 AC08 (R08): devolver sin prestamo activo -> ValueError.
@@ -78,11 +78,22 @@ Revision realizada el 2026-10-28 por angeldelbiondo.
 - [x] Alcance explicito: objetivo y "fuera de alcance" definidos al inicio.
 - [x] R01-R08 sin contradicciones: la auditoria (D01-D13) no encontro conflictos entre requisitos, solo huecos, ya cerrados.
 - [x] AC01-AC08 verificables: cada uno se traduce a una prueba unittest con resultado binario (ver `traceability.md`).
-- [x] Fechas y limites definidos: formato estricto (D01), plazo 14 dias (R02), tope 3 activos (R05), desborde de calendario (D04).
+- [x] Fechas y limites definidos: formato estricto (D01), plazo 14 dias (R02), tope de activos por usuario (R05: 3 en v1.0, 2 en v1.1), desborde de calendario (D04).
 - [x] Comportamiento ante errores definido: `ValueError` + lista intacta (R03-R06, R08, D03, D04, D08, D10, D11).
 
 Todas las casillas revisadas: se autoriza continuar al plan.
 
+## Historial de cambios
+
+| Version | Fecha      | Responsable   | Cambio                                   | Motivo                                                                  | Afecta     |
+|---------|------------|---------------|------------------------------------------|-------------------------------------------------------------------------|------------|
+| 1.0     | 2026-10-28 | angeldelbiondo | Especificacion inicial R01-R08, AC01-AC08 | Contrato inicial aprobado                                               | todos      |
+| 1.1     | 2026-10-28 | angeldelbiondo | R05 y AC05: maximo 3 -> 2 prestamos activos | Solicitud del cliente: "por una restriccion de espacio, cada usuario ahora puede mantener maximo DOS prestamos activos en lugar de tres" | R05, AC05 |
+
+Conducta del resto de requisitos (R01-R04, R06-R08, AC01-AC04, AC06-AC08) sin cambios en v1.1.
+Cadena del cambio: spec v1.1 -> prueba `test_r05` (rojo esperado) -> `MAX_PRESTAMOS_ACTIVOS` en `prestamos.py` (verde).
+
 ## Control de aprobacion
 
 Version 1.0 revisada: fecha 2026-10-28; aprobador(es) angeldelbiondo
+Version 1.1 revisada: fecha 2026-10-28; aprobador(es) angeldelbiondo
