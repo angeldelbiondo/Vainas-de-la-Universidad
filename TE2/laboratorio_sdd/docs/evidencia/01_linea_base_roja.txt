@@ -1,0 +1,135 @@
+# Paso 18 - linea base roja (firmas vacias, NotImplementedError)
+# fecha: 2026-10-28 | Python 3.13.17
+# comando: python -m unittest discover -s tests -v
+
+test_r01_registro (test_prestamos.TestPrestamos.test_r01_registro) ... ERROR
+test_r02_vencimiento (test_prestamos.TestPrestamos.test_r02_vencimiento) ... ERROR
+test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) ... 
+  test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) (fecha='01/09/2026') ... ERROR
+  test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) (fecha='2026-02-30') ... ERROR
+test_r04_campos_vacios (test_prestamos.TestPrestamos.test_r04_campos_vacios) ... ERROR
+test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos) ... ERROR
+test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico) ... ERROR
+test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver) ... ERROR
+test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente) ... ERROR
+
+======================================================================
+ERROR: test_r01_registro (test_prestamos.TestPrestamos.test_r01_registro)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 12, in test_r01_registro
+    r = self.alta()
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r02_vencimiento (test_prestamos.TestPrestamos.test_r02_vencimiento)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 17, in test_r02_vencimiento
+    self.assertEqual(self.alta()["fecha_vencimiento"], "2026-09-15")
+                     ~~~~~~~~~^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) (fecha='01/09/2026')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 23, in test_r03_fecha_invalida
+    self.alta(b="Libro " + fecha, f=fecha)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) (fecha='2026-02-30')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 23, in test_r03_fecha_invalida
+    self.alta(b="Libro " + fecha, f=fecha)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r04_campos_vacios (test_prestamos.TestPrestamos.test_r04_campos_vacios)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 29, in test_r04_campos_vacios
+    self.alta(u=u, b=b)
+    ~~~~~~~~~^^^^^^^^^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 34, in test_r05_maximo_activos
+    self.alta(b=b)
+    ~~~~~~~~~^^^^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 42, in test_r06_libro_unico
+    self.alta()
+    ~~~~~~~~~^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 50, in test_r07_devolver
+    self.alta()
+    ~~~~~~~~~^^
+  File "tests/test_prestamos.py", line 9, in alta
+    return registrar_prestamo(self.p, u, b, f)
+  File "prestamos.py", line 2, in registrar_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 56, in test_r08_devolucion_inexistente
+    devolver_prestamo(self.p, "Ana", "Python")
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "prestamos.py", line 6, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.005s
+
+FAILED (errors=9)
+
+# codigo de salida: 1
