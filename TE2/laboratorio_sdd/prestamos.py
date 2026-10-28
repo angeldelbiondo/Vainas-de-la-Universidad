@@ -3,6 +3,7 @@ import re
 from datetime import date, timedelta
 
 PLAZO_DIAS = 14
+MAX_PRESTAMOS_ACTIVOS = 3
 
 _FORMATO_FECHA = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
@@ -22,6 +23,10 @@ def _fecha(valor):
     return date.fromisoformat(valor)
 
 
+def _activos(prestamos):
+    return [p for p in prestamos if not p["devuelto"]]
+
+
 def registrar_prestamo(prestamos, usuario, libro, fecha):
     if not isinstance(prestamos, list):
         raise ValueError("prestamos debe ser una lista")
@@ -32,6 +37,12 @@ def registrar_prestamo(prestamos, usuario, libro, fecha):
         vencimiento = inicio + timedelta(days=PLAZO_DIAS)
     except OverflowError:
         raise ValueError("fecha fuera del calendario soportado") from None
+
+    activos = _activos(prestamos)
+    if sum(p["usuario"] == usuario for p in activos) >= MAX_PRESTAMOS_ACTIVOS:
+        raise ValueError("el usuario ya tiene el maximo de prestamos activos")
+    if any(p["libro"] == libro for p in activos):
+        raise ValueError("el libro ya esta prestado")
 
     prestamo = {
         "usuario": usuario,

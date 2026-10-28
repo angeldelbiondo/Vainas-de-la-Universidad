@@ -1,0 +1,62 @@
+# Paso 21 - tras T02 (R05-R06). Esperado: r05 y r06 avanzan hasta la llamada a devolver_prestamo (T03 pendiente)
+# fecha: 2026-10-28 | Python 3.13.17
+# comando: python -m unittest discover -s tests -v
+
+test_r01_registro (test_prestamos.TestPrestamos.test_r01_registro) ... ok
+test_r02_vencimiento (test_prestamos.TestPrestamos.test_r02_vencimiento) ... ok
+test_r03_fecha_invalida (test_prestamos.TestPrestamos.test_r03_fecha_invalida) ... ok
+test_r04_campos_vacios (test_prestamos.TestPrestamos.test_r04_campos_vacios) ... ok
+test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos) ... ERROR
+test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico) ... ERROR
+test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver) ... ERROR
+test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente) ... ERROR
+
+======================================================================
+ERROR: test_r05_maximo_activos (test_prestamos.TestPrestamos.test_r05_maximo_activos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 38, in test_r05_maximo_activos
+    devolver_prestamo(self.p, "Ana", "A")
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "prestamos.py", line 59, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r06_libro_unico (test_prestamos.TestPrestamos.test_r06_libro_unico)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 46, in test_r06_libro_unico
+    devolver_prestamo(self.p, "Ana", "Python")
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "prestamos.py", line 59, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r07_devolver (test_prestamos.TestPrestamos.test_r07_devolver)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 51, in test_r07_devolver
+    r = devolver_prestamo(self.p, "Ana", "Python")
+  File "prestamos.py", line 59, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+======================================================================
+ERROR: test_r08_devolucion_inexistente (test_prestamos.TestPrestamos.test_r08_devolucion_inexistente)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_prestamos.py", line 56, in test_r08_devolucion_inexistente
+    devolver_prestamo(self.p, "Ana", "Python")
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "prestamos.py", line 59, in devolver_prestamo
+    raise NotImplementedError("Pendiente de especificacion")
+NotImplementedError: Pendiente de especificacion
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.003s
+
+FAILED (errors=4)
+
+# codigo de salida: 1
